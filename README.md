@@ -13,6 +13,8 @@
 
 Vue.js + IndexedDB + Dexie.js, Vue.component sample
 
+・JS版、複数 Vue.component を表示する例など
+
 ***
 ### Setup
 
