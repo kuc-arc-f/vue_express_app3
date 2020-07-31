@@ -1,0 +1,68 @@
+<div id="app" class="task_test_wrap">
+    <h1>Test 11</h1>
+    <hr />
+    <a class="btn btn-primary" href="/tasks/new"> Add</a>
+    <hr />
+    button:<br />
+    <div class="button_box_wrap">
+        <task_test_button v-for="task in tasks" v-bind:key="task.id"
+        v-bind:task="task" >
+        </task_test_button>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-3">
+            <task_test_side v-for="task in tasks" v-bind:key="task.id"
+            v-bind:task="task" >
+            </task_test_side>
+        </div>
+        <div class="col-sm-9">
+            <ul>
+                <task_test_row v-for="task in tasks" v-bind:key="task.id"
+                    v-bind:task="task" >
+                </task_test_row>
+            </ul>
+        </div>
+    </div>
+    <hr />  
+</div>
+
+<!-- -->
+<script src="/js/libs/LibTask.js"></script>
+<script src="/js/component/Element/task_test_side.js"></script>
+<script src="/js/component/Element/task_test_button.js"></script>
+<script src="/js/component/Element/task_test_row.js"></script>
+<script>
+//
+new Vue({
+    el: '#app',
+    created () {
+        var config = LibTask.get_const();
+//        console.log( config );
+        this.db = new Dexie( config.DB_NAME );
+        this.db.version(config.DB_VERSION).stores( config.DB_STORE );        
+        this.get_items();
+    },    
+    data: {
+        tasks: [],
+        db: null,
+    },
+    methods: {
+        get_items() {
+            var self = this
+            this.db.tasks.toArray().then(function (items ) {
+                var tasks =items
+                self.tasks= tasks;
+// console.log( tasks )
+            });            
+        }
+    }
+
+});
+</script>
+<!-- -->
+<style>
+.task_test_wrap .task_test_row_wap h3{
+ color: green;    
+}
+</style>
