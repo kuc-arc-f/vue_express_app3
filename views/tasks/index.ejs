@@ -12,9 +12,11 @@
     <hr />
     <div class="row">
         <div class="col-sm-3">
-            <task_test_side v-for="task in tasks" v-bind:key="task.id"
-            v-bind:task="task" >
-            </task_test_side>
+            <div v-for="task in tasks" v-on:click="click_side(task.id)" >
+                <task_test_side2  v-bind:key="task.id"
+                    v-bind:task="task">
+                </task_test_side2>
+            </div>            
         </div>
         <div class="col-sm-9">
             <ul>
@@ -29,6 +31,7 @@
 
 <!-- -->
 <script src="/js/libs/LibTask.js"></script>
+<script src="/js/component/Element/task_test_side2.js"></script>
 <script src="/js/component/Element/task_test_side.js"></script>
 <script src="/js/component/Element/task_test_button.js"></script>
 <script src="/js/component/Element/task_test_row.js"></script>
@@ -38,7 +41,6 @@ new Vue({
     el: '#app',
     created () {
         var config = LibTask.get_const();
-//        console.log( config );
         this.db = new Dexie( config.DB_NAME );
         this.db.version(config.DB_VERSION).stores( config.DB_STORE );        
         this.get_items();
@@ -55,7 +57,11 @@ new Vue({
                 self.tasks= tasks;
 // console.log( tasks )
             });            
-        }
+        },
+        click_side(id){
+console.log( id )
+
+        },
     }
 
 });

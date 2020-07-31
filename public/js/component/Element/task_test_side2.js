@@ -1,6 +1,6 @@
-// task_test_side
+// task_test_side2
 
-Vue.component('task_test_side', {
+Vue.component('task_test_side2', {
     created(){
 //console.log(obj)
     },
@@ -11,15 +11,15 @@ Vue.component('task_test_side', {
     },
     props: ['task'],
     template: `
-    <div class="task_test_row_wap" v-on:click="test1( task.id)">
+    <div class="task_test_row_wap">
         {{ task.title }}<br />
-        id: {{ task.id }}
+        ID: {{ task.id}}
+        <hr class="mt-2 mb-2" />
     </div>
     `,
     methods:{
         test1(id){
 //            console.log(id)
-//            alert('t:' + id)
         },
 
     },
