@@ -2,38 +2,45 @@
     <h1>Tasks - new</h1>
     <hr />
     <div class="form-group">
-            <label for="TopicTitle">タイトル</label>
-            <input type="text" class="form-control" id="title" v-model="title">
-        </div>
-        <div class="form-group">
-            <label for="TopicContent">content</label>
-            <textarea class="form-control" id="content" rows="3" v-model="content"></textarea>
-        </div>
-        <button v-on:click="send_post">投稿</button>
+        <label for="TopicTitle">タイトル</label>
+        <input type="text" class="form-control" id="title" v-model="title">
+    </div>
+    <div class="form-group">
+        <label for="TopicContent">content</label>
+        <textarea class="form-control"
+         id="content" rows="3" v-model="content"></textarea>
+    </div>
+    <button v-on:click="add_item">投稿</button>
 
 </div>
 
 <!-- -->
+<script src="/js/libs/LibTask.js"></script>
 <script>
+//
 new Vue({
     el: '#app',
     created () {
-//        this.getTasks()
+        var config = LibTask.get_const();
+        this.db = new Dexie( config.DB_NAME );
+        this.db.version(config.DB_VERSION).stores( config.DB_STORE );        
     },    
     data: {
         title:'',
-        content:''        
+        content:'',
+        db: null,        
     },
     methods: {
-        send_post(){
+        async add_item(){
             var task = {
-                'title': this.title,
-                'content': this.content
-            };
-            axios.post('/api/tasks_new' , task ).then(res => {
-                console.log(res.data );
-            });
-        },        
+                title: this.title,
+                content: this.content,
+                created_at: new Date(),
+            }
+            await this.db.tasks.add( task)
+            console.log( task )
+            window.location.href="/tasks"
+        },                
     }
 
 });

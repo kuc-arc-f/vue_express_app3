@@ -1,33 +1,40 @@
 <div id="app">
     <h1>Tasks - show</h1>
     <hr />
-    <h1>title : {{ item.title }}</h1>
-    <div v-text="item.content"></div>
+    <h1>{{ title }}</h1>
+    <hr />
+    Content:
+    <div v-text="content"></div>
 </div>
 
 <!-- -->
+<script src="/js/libs/LibTask.js"></script>
 <script>
 new Vue({
     el: '#app',
     created () {
+        var config = LibTask.get_const();
+        this.db = new Dexie( config.DB_NAME );
+        this.db.version(config.DB_VERSION).stores( config.DB_STORE );        
         var id = "<%= params_id %>";
-        this.getItem(id)
+        this.get_item(parseInt( id) )
     },    
     data: {
-//       tasks: [],
         item : [],
         title:'',
         content:''        
     },
     methods: {
-        getItem: function(id) {
-            axios.get("/api/tasks_show/" + id )
-            .then(res =>  {
-                var dat = res.data.docs
-                this.item = dat[0];
-                console.log( dat )
-            })            
-        }
+        async get_item(id){
+            const item = await this.db.tasks.get(id);
+            var row ={
+                title: item.title, 
+                content: item.content
+            }
+            this.title = item.title
+            this.content = item.content
+            console.log(item);                          
+        }         
     }
 
 });

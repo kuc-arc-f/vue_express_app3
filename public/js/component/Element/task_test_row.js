@@ -13,7 +13,9 @@ Vue.component('task_test_row', {
     template: `
         <li>
             <div class="task_test_row_wap">
-                <h3>{{ task.title }} </h3><br />
+                <a v-bind:href="'/tasks/show/' + task.id">
+                    <h3>{{ task.title }} </h3>
+                </a>
                 {{ task.content }} / id: {{ task.id }}
             </div>
         </li>
